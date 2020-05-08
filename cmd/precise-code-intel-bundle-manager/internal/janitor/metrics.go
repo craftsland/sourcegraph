@@ -16,6 +16,7 @@ func NewJanitorMetrics(r prometheus.Registerer) JanitorMetrics {
 		Name:      "janitor_old_uploads",
 		Help:      "Total number of old upload removed",
 	})
+	r.MustRegister(oldUploads)
 
 	orphanedDumps := prometheus.NewCounter(prometheus.CounterOpts{
 		Namespace: "src",
@@ -23,6 +24,7 @@ func NewJanitorMetrics(r prometheus.Registerer) JanitorMetrics {
 		Name:      "janitor_orphaned_dumps",
 		Help:      "Total number of orphaned dumps removed",
 	})
+	r.MustRegister(orphanedDumps)
 
 	evictedDumps := prometheus.NewCounter(prometheus.CounterOpts{
 		Namespace: "src",
@@ -30,6 +32,7 @@ func NewJanitorMetrics(r prometheus.Registerer) JanitorMetrics {
 		Name:      "janitor_old_dumps",
 		Help:      "Total number of dumps evicted from disk",
 	})
+	r.MustRegister(evictedDumps)
 
 	errors := prometheus.NewCounter(prometheus.CounterOpts{
 		Namespace: "src",
@@ -37,13 +40,7 @@ func NewJanitorMetrics(r prometheus.Registerer) JanitorMetrics {
 		Name:      "janitor_errors",
 		Help:      "Total number of errors when running the janitor",
 	})
-
-	if r != nil {
-		r.MustRegister(oldUploads)
-		r.MustRegister(orphanedDumps)
-		r.MustRegister(evictedDumps)
-		r.MustRegister(errors)
-	}
+	r.MustRegister(errors)
 
 	return JanitorMetrics{
 		OldUploads:    oldUploads,

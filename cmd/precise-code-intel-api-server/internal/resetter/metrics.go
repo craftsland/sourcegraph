@@ -14,6 +14,7 @@ func NewResetterMetrics(r prometheus.Registerer) ResetterMetrics {
 		Name:      "resetter_stalled_jobs",
 		Help:      "Total number of reset stalled jobs",
 	})
+	r.MustRegister(stalledJobs)
 
 	errors := prometheus.NewCounter(prometheus.CounterOpts{
 		Namespace: "src",
@@ -21,6 +22,7 @@ func NewResetterMetrics(r prometheus.Registerer) ResetterMetrics {
 		Name:      "resetter_errors",
 		Help:      "Total number of errors when running the janitor",
 	})
+	r.MustRegister(errors)
 
 	return ResetterMetrics{
 		StalledJobs: stalledJobs,

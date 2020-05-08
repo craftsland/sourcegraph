@@ -10,7 +10,11 @@ type WorkerMetrics struct {
 }
 
 func NewWorkerMetrics(r prometheus.Registerer) WorkerMetrics {
-	jobs := metrics.NewOperationMetrics(r, "precise_code_intel_worker", "jobs")
+	jobs := metrics.NewOperationMetrics(
+		r,
+		"processor",
+		metrics.WithSubsystem("upload_queue"),
+	)
 
 	return WorkerMetrics{
 		Jobs: jobs,

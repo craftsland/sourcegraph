@@ -63,11 +63,11 @@ func (j *Janitor) removeOrphanedDumps(statesFn StatesFn) error {
 			}
 
 			count++
-			log15.Debug("Removed dead dump", "id", id)
+			log15.Debug("Removed orphaned dump", "id", id)
 		}
 	}
 
-	j.Metrics.OrphanedDumps.Add(float64(count))
+	j.Metrics.OprphanedBundleFilesRemoved.Add(float64(count))
 	return nil
 }
 

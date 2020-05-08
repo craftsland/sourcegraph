@@ -34,6 +34,6 @@ func (j *Janitor) cleanOldUploads() error {
 		log15.Debug("Removed old upload", "path", fileInfo.Name(), "age", age)
 	}
 
-	j.Metrics.OldUploads.Add(float64(count))
+	j.Metrics.UploadFilesRemoved.Add(float64(count))
 	return nil
 }

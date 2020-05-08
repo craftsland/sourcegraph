@@ -26,12 +26,11 @@ var _ Reader = &ObservedReader{}
 var singletonMetrics = &metrics.SingletonOperationMetrics{}
 
 // NewObservedReader wraps the given Reader with error logging, Prometheus metrics, and tracing.
-func NewObserved(reader Reader, observationContext *observation.Context, subsystem string) Reader {
+func NewObserved(reader Reader, observationContext *observation.Context) Reader {
 	metrics := singletonMetrics.Get(func() *metrics.OperationMetrics {
 		return metrics.NewOperationMetrics(
 			observationContext.Registerer,
-			subsystem,
-			"reader",
+			"bundle_reader",
 			metrics.WithLabels("op"),
 			metrics.WithCountHelp("Total number of results returned"),
 		)

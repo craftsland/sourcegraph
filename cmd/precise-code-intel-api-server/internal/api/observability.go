@@ -29,6 +29,11 @@ func NewObserved(codeIntelAPI CodeIntelAPI, observationContext *observation.Cont
 		metrics.WithLabels("op"),
 		metrics.WithCountHelp("Total number of results returned"),
 	)
+}
+
+// NewObservedCodeIntelAPI wraps the given CodeIntelAPI with error logging, Prometheus metrics, and tracing.
+func NewObserved(codeIntelAPI CodeIntelAPI, observationContext *observation.Context) CodeIntelAPI {
+	metrics := createMetrics(observationContext)
 
 	return &ObservedCodeIntelAPI{
 		codeIntelAPI: codeIntelAPI,

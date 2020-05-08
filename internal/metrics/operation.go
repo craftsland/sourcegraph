@@ -103,6 +103,7 @@ func NewOperationMetrics(r prometheus.Registerer, subsystem, metricPrefix string
 		Count:    count,
 		Errors:   errors,
 	}
+	return m.metrics
 }
 
 type SingletonOperationMetrics struct {

@@ -71,7 +71,6 @@ func NewObserved(reader Reader, observationContext *observation.Context, subsyst
 func (r *ObservedReader) ReadMeta(ctx context.Context) (_ string, _ string, _ int, err error) {
 	ctx, endObservation := r.readMetaOperation.With(ctx, &err, observation.Args{})
 	defer endObservation(1, observation.Args{})
-
 	return r.reader.ReadMeta(ctx)
 }
 
@@ -79,7 +78,6 @@ func (r *ObservedReader) ReadMeta(ctx context.Context) (_ string, _ string, _ in
 func (r *ObservedReader) ReadDocument(ctx context.Context, path string) (_ types.DocumentData, _ bool, err error) {
 	ctx, endObservation := r.readDocumentOperation.With(ctx, &err, observation.Args{})
 	defer endObservation(1, observation.Args{})
-
 	return r.reader.ReadDocument(ctx, path)
 }
 
@@ -87,27 +85,20 @@ func (r *ObservedReader) ReadDocument(ctx context.Context, path string) (_ types
 func (r *ObservedReader) ReadResultChunk(ctx context.Context, id int) (_ types.ResultChunkData, _ bool, err error) {
 	ctx, endObservation := r.readResultChunkOperation.With(ctx, &err, observation.Args{})
 	defer endObservation(1, observation.Args{})
-
 	return r.reader.ReadResultChunk(ctx, id)
 }
 
 // ReadDefinitions calls into the inner Reader and registers the observed results.
 func (r *ObservedReader) ReadDefinitions(ctx context.Context, scheme, identifier string, skip, take int) (definitions []types.DefinitionReferenceRow, _ int, err error) {
 	ctx, endObservation := r.readDefinitionsOperation.With(ctx, &err, observation.Args{})
-	defer func() {
-		endObservation(float64(len(definitions)), observation.Args{})
-	}()
-
+	defer func() { endObservation(float64(len(definitions)), observation.Args{}) }()
 	return r.reader.ReadDefinitions(ctx, scheme, identifier, skip, take)
 }
 
 // ReadReferences calls into the inner Reader and registers the observed results.
 func (r *ObservedReader) ReadReferences(ctx context.Context, scheme, identifier string, skip, take int) (references []types.DefinitionReferenceRow, _ int, err error) {
 	ctx, endObservation := r.readReferencesOperation.With(ctx, &err, observation.Args{})
-	defer func() {
-		endObservation(float64(len(references)), observation.Args{})
-	}()
-
+	defer func() { endObservation(float64(len(references)), observation.Args{}) }()
 	return r.reader.ReadReferences(ctx, scheme, identifier, skip, take)
 }
 

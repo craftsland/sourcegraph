@@ -14,7 +14,7 @@ func NewJanitorMetrics(r prometheus.Registerer) JanitorMetrics {
 		Namespace: "src",
 		Subsystem: "bundle_manager_janitor",
 		Name:      "upload_files_removed_total",
-		Help:      "Total number of upload files removed (due to their age)",
+		Help:      "Total number of upload files removed (due to age)",
 	})
 	r.MustRegister(uploadFilesRemoved)
 
@@ -22,7 +22,7 @@ func NewJanitorMetrics(r prometheus.Registerer) JanitorMetrics {
 		Namespace: "src",
 		Subsystem: "bundle_manager_janitor",
 		Name:      "orphaned_bundle_files_removed_total",
-		Help:      "Total number of bundle files removed with no corresponding database entry",
+		Help:      "Total number of bundle files removed (with no corresponding database entry)",
 	})
 	r.MustRegister(oprphanedBundleFilesRemoved)
 
@@ -30,7 +30,7 @@ func NewJanitorMetrics(r prometheus.Registerer) JanitorMetrics {
 		Namespace: "src",
 		Subsystem: "bundle_manager_janitor",
 		Name:      "evicted_bundle_files_removed_total",
-		Help:      "Total number of bundles files removed after evicting them from the database",
+		Help:      "Total number of bundles files removed (after evicting them from the database)",
 	})
 	r.MustRegister(evictedBundleFilesRemoved)
 

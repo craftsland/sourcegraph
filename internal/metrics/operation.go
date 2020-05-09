@@ -80,29 +80,37 @@ func NewOperationMetrics(r prometheus.Registerer, metricPrefix string, fns ...Op
 		fn(options)
 	}
 
-	duration := prometheus.NewHistogramVec(prometheus.HistogramOpts{
-		Namespace: "src",
-		Name:      fmt.Sprintf("%s_duration_seconds", metricPrefix),
-		Subsystem: options.subsystem,
-		Help:      options.durationHelp,
-	}, options.labels)
-
-	count := prometheus.NewCounterVec(prometheus.CounterOpts{
-		Namespace: "src",
-		Name:      fmt.Sprintf("%s_total", metricPrefix),
-		Subsystem: options.subsystem,
-		Help:      options.countHelp,
-	}, options.labels)
-
-	errors := prometheus.NewCounterVec(prometheus.CounterOpts{
-		Namespace: "src",
-		Name:      fmt.Sprintf("%s_errors_total", metricPrefix),
-		Subsystem: options.subsystem,
-		Help:      options.errorsHelp,
-	}, options.labels)
-
+	duration := prometheus.NewHistogramVec(
+		prometheus.HistogramOpts{
+			Namespace: "src",
+			Name:      fmt.Sprintf("%s_duration_seconds", metricPrefix),
+			Subsystem: options.subsystem,
+			Help:      options.durationHelp,
+		},
+		options.labels,
+	)
 	r.MustRegister(duration)
+
+	count := prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Namespace: "src",
+			Name:      fmt.Sprintf("%s_total", metricPrefix),
+			Subsystem: options.subsystem,
+			Help:      options.countHelp,
+		},
+		options.labels,
+	)
 	r.MustRegister(count)
+
+	errors := prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Namespace: "src",
+			Name:      fmt.Sprintf("%s_errors_total", metricPrefix),
+			Subsystem: options.subsystem,
+			Help:      options.errorsHelp,
+		},
+		options.labels,
+	)
 	r.MustRegister(errors)
 
 	return &OperationMetrics{

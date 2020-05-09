@@ -24,7 +24,7 @@ var _ CodeIntelAPI = &ObservedCodeIntelAPI{}
 func NewObserved(codeIntelAPI CodeIntelAPI, observationContext *observation.Context) CodeIntelAPI {
 	metrics := metrics.NewOperationMetrics(
 		observationContext.Registerer,
-		"code_intel_api",
+		"codeintel_api",
 		metrics.WithLabels("op"),
 		metrics.WithCountHelp("Total number of results returned"),
 	)

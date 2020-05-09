@@ -11,19 +11,19 @@ func PreciseCodeIntelBundleManager() *Container {
 				Rows: []Row{
 					{
 						{
-							Name:        "99th_percentile_database_duration",
-							Description: "99th percentile successful database query duration over 5m",
+							Name:        "99th_percentile_bundle_database_duration",
+							Description: "99th percentile successful bundle database query duration over 5m",
 							// TODO(efritz) - ensure these exclude error durations
-							Query:             `histogram_quantile(0.99, sum by (le,op)(rate(src_precise_code_intel_bundle_manager_database_duration_seconds_bucket[5m])))`,
+							Query:             `histogram_quantile(0.99, sum by (le,op)(rate(src_bundle_database_duration_seconds_bucket[5m])))`,
 							DataMayNotExist:   true,
 							Warning:           Alert{GreaterOrEqual: 20},
 							PanelOptions:      PanelOptions().LegendFormat("{{op}}").Unit(Seconds),
 							PossibleSolutions: "none",
 						},
 						{
-							Name:              "database_errors",
-							Description:       "database errors every 5m",
-							Query:             `sum by (op)(increase(src_precise_code_intel_bundle_manager_database_errors_total[5m]))`,
+							Name:              "bundle_database_errors",
+							Description:       "bundle database errors every 5m",
+							Query:             `sum by (op)(increase(src_bundle_database_errors_total[5m]))`,
 							DataMayNotExist:   true,
 							Warning:           Alert{GreaterOrEqual: 5},
 							Critical:          Alert{GreaterOrEqual: 20},
@@ -33,19 +33,19 @@ func PreciseCodeIntelBundleManager() *Container {
 					},
 					{
 						{
-							Name:        "99th_percentile_reader_duration",
-							Description: "99th percentile successful reader query duration over 5m",
+							Name:        "99th_percentile_bundle_reader_duration",
+							Description: "99th percentile successful bundle reader query duration over 5m",
 							// TODO(efritz) - ensure these exclude error durations
-							Query:             `histogram_quantile(0.99, sum by (le,op)(rate(src_precise_code_intel_bundle_manager_reader_duration_seconds_bucket[5m])))`,
+							Query:             `histogram_quantile(0.99, sum by (le,op)(rate(src_bundle_reader_duration_seconds_bucket[5m])))`,
 							DataMayNotExist:   true,
 							Warning:           Alert{GreaterOrEqual: 20},
 							PanelOptions:      PanelOptions().LegendFormat("{{op}}").Unit(Seconds),
 							PossibleSolutions: "none",
 						},
 						{
-							Name:              "reader_errors",
-							Description:       "reader errors every 5m",
-							Query:             `sum by (op)(increase(src_precise_code_intel_bundle_manager_reader_errors_total[5m]))`,
+							Name:              "bundle_reader_errors",
+							Description:       "bundle reader errors every 5m",
+							Query:             `sum by (op)(increase(src_bundle_reader_errors_total[5m]))`,
 							DataMayNotExist:   true,
 							Warning:           Alert{GreaterOrEqual: 5},
 							Critical:          Alert{GreaterOrEqual: 20},
@@ -73,25 +73,25 @@ func PreciseCodeIntelBundleManager() *Container {
 							Description:       "cache cost",
 							Query:             `src_cache_cost`,
 							DataMayNotExist:   true,
-							Warning:           Alert{LessOrEqual: -1}, // TODO(efritz) - calculate ratio capacity so we can have a sensible alert
+							Warning:           Alert{GreaterOrEqual: 1e6}, // TODO(efritz) - calculate ratio capacity so we can have a sensible alert
 							PanelOptions:      PanelOptions().LegendFormat("{{cache}}"),
 							PossibleSolutions: "none",
 						},
 						{
 							Name:              "cache_hits",
 							Description:       "cache hits every 5m",
-							Query:             `increase(src_cache_hits[5m])`,
+							Query:             `increase(src_cache_hits_total[5m])`,
 							DataMayNotExist:   true,
-							Warning:           Alert{LessOrEqual: -1}, // TODO(efritz) - determine alerts
+							Warning:           Alert{GreaterOrEqual: 1e6}, // TODO(efritz) - determine alerts
 							PanelOptions:      PanelOptions().LegendFormat("{{cache}}"),
 							PossibleSolutions: "none",
 						},
 						{
 							Name:              "cache_misses",
 							Description:       "cache misses every 5m",
-							Query:             `increase(src_cache_misses[5m])`,
+							Query:             `increase(src_cache_misses_total[5m])`,
 							DataMayNotExist:   true,
-							Warning:           Alert{LessOrEqual: -1}, // TODO(efritz) - determine alerts
+							Warning:           Alert{GreaterOrEqual: 1e6}, // TODO(efritz) - determine alerts
 							PanelOptions:      PanelOptions().LegendFormat("{{cache}}"),
 							PossibleSolutions: "none",
 						},
@@ -100,7 +100,7 @@ func PreciseCodeIntelBundleManager() *Container {
 						{
 							Name:              "janitor_errors",
 							Description:       "janitor errors every 5m",
-							Query:             `sum(increase(src_precise_code_intel_bundle_manager_janitor_errors[5m]))`,
+							Query:             `sum(increase(src_bundle_manager_janitor_errors_total[5m]))`,
 							DataMayNotExist:   true,
 							Warning:           Alert{GreaterOrEqual: 5},
 							Critical:          Alert{GreaterOrEqual: 20},
@@ -108,19 +108,9 @@ func PreciseCodeIntelBundleManager() *Container {
 							PossibleSolutions: "none",
 						},
 						{
-							Name:              "janitor_old_dumps",
-							Description:       "bundle files removed every 5m",
-							Query:             `sum(increase(src_precise_code_intel_bundle_manager_janitor_old_dumps[5m]))`,
-							DataMayNotExist:   true,
-							Warning:           Alert{GreaterOrEqual: 5},
-							Critical:          Alert{GreaterOrEqual: 20},
-							PanelOptions:      PanelOptions().LegendFormat("files removed"),
-							PossibleSolutions: "none",
-						},
-						{
 							Name:              "janitor_old_uploads",
-							Description:       "upload files removed every 5m",
-							Query:             `sum(increase(src_precise_code_intel_bundle_manager_janitor_old_uploads[5m]))`,
+							Description:       "upload files removed (due to age) every 5m",
+							Query:             `sum(increase(src_bundle_manager_janitor_upload_files_removed_total[5m]))`,
 							DataMayNotExist:   true,
 							Warning:           Alert{GreaterOrEqual: 5},
 							Critical:          Alert{GreaterOrEqual: 20},
@@ -129,8 +119,18 @@ func PreciseCodeIntelBundleManager() *Container {
 						},
 						{
 							Name:              "janitor_orphaned_dumps",
-							Description:       "orphaned bundle files removed every 5m",
-							Query:             `sum(increase(src_precise_code_intel_bundle_manager_janitor_orphaned_dumps[5m]))`,
+							Description:       "bundle files removed (with no corresponding database entry) every 5m",
+							Query:             `sum(increase(src_bundle_manager_janitor_orphaned_bundle_files_removed_total[5m]))`,
+							DataMayNotExist:   true,
+							Warning:           Alert{GreaterOrEqual: 5},
+							Critical:          Alert{GreaterOrEqual: 20},
+							PanelOptions:      PanelOptions().LegendFormat("files removed"),
+							PossibleSolutions: "none",
+						},
+						{
+							Name:              "janitor_old_dumps",
+							Description:       "bundle files removed (after evicting them from the database) every 5m",
+							Query:             `sum(increase(src_bundle_manager_janitor_evicted_bundle_files_removed_total[5m]))`,
 							DataMayNotExist:   true,
 							Warning:           Alert{GreaterOrEqual: 5},
 							Critical:          Alert{GreaterOrEqual: 20},

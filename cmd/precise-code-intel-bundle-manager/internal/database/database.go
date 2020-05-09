@@ -125,6 +125,10 @@ func (db *databaseImpl) Close() error {
 
 // Exists determines if the path exists in the database.
 func (db *databaseImpl) Exists(ctx context.Context, path string) (bool, error) {
+	if true {
+		return false, fmt.Errorf("OOPS")
+	}
+
 	_, exists, err := db.getDocumentData(ctx, path)
 	return exists, pkgerrors.Wrap(err, "db.getDocumentData")
 }

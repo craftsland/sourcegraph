@@ -37,6 +37,10 @@ func (w *Worker) Start() {
 	}
 }
 
+//
+// TODO - add a test
+//
+
 // dequeueAndProcess pulls a job from the queue and processes it. If there was no job ready
 // to process, this method returns a false-valued flag.
 func (w *Worker) dequeueAndProcess(ctx context.Context) (_ bool, err error) {
@@ -51,24 +55,20 @@ func (w *Worker) dequeueAndProcess(ctx context.Context) (_ bool, err error) {
 			err = multierror.Append(err, closeErr)
 		}
 
-		if err == nil {
-			log15.Info("Processed upload", "id", upload.ID)
-		} else {
-			// TODO(efritz) - distinguish between correlation and system errors
-			log15.Warn("Failed to process upload", "id", upload.ID, "err", err)
-		}
-
-		w.Metrics.Jobs.Observe(time.Since(start).Seconds(), 1, &err)
+		w.Metrics.Processor.Observe(time.Since(start).Seconds(), 1, &err)
 	}()
 
 	log15.Info("Dequeued upload for processing", "id", upload.ID)
 
-	if err = process(ctx, jobHandle.DB(), w.BundleManagerClient, w.GitserverClient, upload, jobHandle); err != nil {
-		if markErr := jobHandle.MarkErrored(ctx, err.Error(), ""); markErr != nil {
-			err = errors.Wrap(markErr, "jobHandle.MarkErrored")
-		}
+	if processErr := process(ctx, jobHandle.DB(), w.BundleManagerClient, w.GitserverClient, upload, jobHandle); processErr == nil {
+		log15.Info("Processed upload", "id", upload.ID)
+	} else {
+		// TODO(efritz) - distinguish between correlation and system errors
+		log15.Warn("Failed to process upload", "id", upload.ID, "err", processErr)
 
-		return false, err
+		if markErr := jobHandle.MarkErrored(ctx, processErr.Error(), ""); markErr != nil {
+			return true, errors.Wrap(markErr, "jobHandle.MarkErrored")
+		}
 	}
 
 	return true, nil

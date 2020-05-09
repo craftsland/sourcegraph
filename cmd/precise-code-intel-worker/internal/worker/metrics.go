@@ -6,17 +6,17 @@ import (
 )
 
 type WorkerMetrics struct {
-	Jobs *metrics.OperationMetrics
+	Processor *metrics.OperationMetrics
 }
 
 func NewWorkerMetrics(r prometheus.Registerer) WorkerMetrics {
-	jobs := metrics.NewOperationMetrics(
+	processor := metrics.NewOperationMetrics(
 		r,
 		"processor",
 		metrics.WithSubsystem("upload_queue"),
 	)
 
 	return WorkerMetrics{
-		Jobs: jobs,
+		Processor: processor,
 	}
 }

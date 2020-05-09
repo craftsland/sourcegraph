@@ -244,10 +244,17 @@ func (db *ObservedDB) RollbackToSavepoint(ctx context.Context, name string) (err
 }
 
 // Done calls into the inner DB and registers the observed results.
-func (db *ObservedDB) Done(e error) (err error) {
-	_, endObservation := db.doneOperation.With(context.Background(), &err, observation.Args{})
+func (db *ObservedDB) Done(e error) error {
+	var ex error = nil
+	_, endObservation := db.doneOperation.With(context.Background(), &ex, observation.Args{})
 	defer endObservation(1, observation.Args{})
-	return db.db.Done(e)
+
+	// TODO - refactor this, add a test
+	err := db.db.Done(e)
+	if err != e {
+		ex = err
+	}
+	return err
 }
 
 // GetUploadByID calls into the inner DB and registers the observed results.

@@ -1,0 +1,23 @@
+.cartesian-chart-view-content {
+    .recharts-tooltip-wrapper {
+        border: 1px solid var(--color-border);
+        color: var(--body-color) !important;
+        background: var(--body-bg) !important;
+        z-index: 1000;
+    }
+    .recharts-default-tooltip,
+    .recharts-tooltip-item {
+        border: none !important;
+        color: inherit !important;
+        background: transparent !important;
+    }
+    .recharts-tooltip-label {
+        font-weight: bold;
+    }
+}
+
+.pie-chart-view-content {
+    .recharts-pie-label-text {
+        fill: var(--body-color);
+    }
+}

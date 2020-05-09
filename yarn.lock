@@ -3213,10 +3213,10 @@
     "@types/react" "*"
     "@types/react-router" "*"
 
-"@types/react-router@*", "@types/react-router@5.1.5":
-  version "5.1.5"
-  resolved "https://registry.npmjs.org/@types/react-router/-/react-router-5.1.5.tgz#7b2f9b7cc3d350e92664c4e38c0ef529286fe628"
-  integrity sha512-RZPdCtZympi6X7EkGyaU7ISiAujDYTWgqMF9owE3P6efITw27IWQykcti0BvA5h4Mu1LLl5rxrpO3r8kHyUZ/Q==
+"@types/react-router@*", "@types/react-router@5.1.7":
+  version "5.1.7"
+  resolved "https://registry.npmjs.org/@types/react-router/-/react-router-5.1.7.tgz#e9d12ed7dcfc79187e4d36667745b69a5aa11556"
+  integrity sha512-2ouP76VQafKjtuc0ShpwUebhHwJo0G6rhahW9Pb8au3tQTjYXd2jta4wv6U2tGLR/I42yuG00+UXjNYY0dTzbg==
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
@@ -3271,10 +3271,10 @@
   resolved "https://registry.npmjs.org/@types/recharts-scale/-/recharts-scale-1.0.0.tgz#348c9220d6d9062c44a9d585d686644a97f7e25d"
   integrity sha512-HR/PrCcxYb2YHviTqH7CMdL1TUhUZLTUKzfrkMhxm1HTa5mg/QtP8XMiuSPz6dZ6wecazAOu8aYZ5DqkNlgHHQ==
 
-"@types/recharts@1.8.9":
-  version "1.8.9"
-  resolved "https://registry.npmjs.org/@types/recharts/-/recharts-1.8.9.tgz#2439f1138253500a1fadc1ae3534ce895a0dd0a3"
-  integrity sha512-J4sZYDfdbFf1aLzenOksdd2s8D/GWh8tftgaE3oMDkvgfOwba0d8DxP0hnE2+WzsSy4fSvHWqrKZv5r2hVH47A==
+"@types/recharts@1.8.10":
+  version "1.8.10"
+  resolved "https://registry.npmjs.org/@types/recharts/-/recharts-1.8.10.tgz#46bfc0450b1d38e84642b8b22a290359e454f7f6"
+  integrity sha512-XHVagR/eJFTTeYGygNuZIiMhNpwGjjf5+8clc6ST27sReecEZN7YTRWlZVvMyN0sJRIhABTLnhoIU+5Gts9+yQ==
   dependencies:
     "@types/d3-shape" "*"
     "@types/react" "*"
@@ -3486,10 +3486,10 @@
   resolved "https://registry.npmjs.org/@types/unist/-/unist-2.0.2.tgz#5dc0a7f76809b7518c0df58689cd16a19bd751c6"
   integrity sha512-iHI60IbyfQilNubmxsq4zqSjdynlmc2Q/QvH9kjzg9+CCYVVzq1O6tc7VBzSygIwnmOt07w80IG6HDQvjv3Liw==
 
-"@types/uuid@7.0.2":
-  version "7.0.2"
-  resolved "https://registry.npmjs.org/@types/uuid/-/uuid-7.0.2.tgz#d680a9c596ef84abf5c4c07a32ffd66d582526f8"
-  integrity sha512-8Ly3zIPTnT0/8RCU6Kg/G3uTICf9sRwYOpUzSIM3503tLIKcnJPRuinHhXngJUy2MntrEf6dlpOHXJju90Qh5w==
+"@types/uuid@7.0.3":
+  version "7.0.3"
+  resolved "https://registry.npmjs.org/@types/uuid/-/uuid-7.0.3.tgz#45cd03e98e758f8581c79c535afbd4fc27ba7ac8"
+  integrity sha512-PUdqTZVrNYTNcIhLHkiaYzoOIaUi5LFg/XLerAdgvwQrUCx+oSbtoBze1AMyvYbcwzUSNC+Isl58SM4Sm/6COw==
 
 "@types/vfile-message@*":
   version "1.0.1"
